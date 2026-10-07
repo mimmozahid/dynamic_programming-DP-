@@ -7,19 +7,24 @@ using ll = long long;
 const int MOD = 1e9 + 7;
 template <typename T> using pbds = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>; 
 
-vector<ll> dp;
-
-ll fibo (int n)
+void rec (int n)
 {
-    if (n == 1 || n == 0)
-        return n;
+    if (n < 10)
+    {
+        cout << n << ' ';
+        return;
+    }
 
-    if (dp[n] != -1)
-        return dp[n];
+    rec (n/10);
+    cout << n%10 << " ";
+}
 
-    // dp[n] = fibo (n-1) + fibo (n-2);
-
-    return dp[n] = fibo (n-1) + fibo (n-2);
+void solve (int tc)
+{
+    int n;
+    cin >> n;
+    rec (n);
+    cout << endl;
 }
 
 int main()
@@ -27,12 +32,11 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     
-    ll n;
-    cin >> n;
+    int t = 1;
+    cin >> t;
+    for (int i = 1; i <= t; i++)
+        solve (i);
 
-    dp.assign (n+9, -1);
-    
-    cout << fibo (n) << endl;
-    
     return 0;
 }
+
