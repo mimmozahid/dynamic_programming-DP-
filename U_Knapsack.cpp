@@ -10,24 +10,23 @@ template <typename T> using pbds = tree<T, null_type, less<T>, rb_tree_tag, tree
 int val[1005], weight[1005];
 int dp[1005][1005];
 
-int KnapSack (int i, int mx_weight)
+int Knapsack (int i, int w)
 {
-    if (i < 0 || mx_weight <= 0)
+    if (i < 0 || w <= 0)
         return 0;
-
-    if (dp[i][mx_weight] != -1)
-        return dp[i][mx_weight];
     
-    if (weight[i] <= mx_weight)
+    if (dp[i][w] != -1)
+        return dp[i][w];
+
+    if (weight[i] <= w)
     {
-        int op1 = KnapSack (i-1, mx_weight - weight[i]) + val[i];
-        int op2 = KnapSack (i-1, mx_weight);
-        return dp[i][mx_weight] = max (op1, op2);
+        int op1 = Knapsack (i-1, w - weight[i]) + val[i];
+        int op2 = Knapsack (i-1, w);
+        return dp[i][w] = max (op1, op2);
     }
     else
     {
-        int op2 = KnapSack (i-1, mx_weight);
-        return dp[i][mx_weight] = op2;
+        return dp[i][w] = Knapsack (i-1, w);
     }
 }
 
@@ -36,28 +35,24 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     
-    int n; cin >> n;
-    for (int i = 0; i < n; i++)
-    {
-        cin >> val[i];
-    }
+    int n, w;
+    cin >> n >> w;
+
     for (int i = 0; i < n; i++)
     {
         cin >> weight[i];
+        cin >> val[i];
     }
-
     
-    int mx_weight;
-    cin >> mx_weight;
     for (int i = 0; i <= n; i++)
     {
-        for (int j = 0; j <= mx_weight; j++)
+        for (int j = 0; j <= w; j++)
         {
             dp[i][j] = -1;
         }
     }
-
-    cout << KnapSack (n-1, mx_weight) << endl;
+    
+    cout << Knapsack (n-1, w) << endl;
     
     return 0;
 }
